@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 animate-fade-in">
+    <h2>Библиотека игр</h2>
+    <input type="text" id="gameSearchInput" class="form-control w-25" placeholder="Поиск игры...">
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5 animate-fade-in" id="gamesGrid">
+    {% for game in games %}
+    <div class="col game-card">
+        <a href="/game/{{ game.appid }}" class="text-decoration-none text-reset">
+            <div class="card h-100 shadow-sm position-relative card-hover">
+                <img src="{{ game.cover }}" class="card-img-top" alt="{{ game.name }}">
+                <div class="card-body">
+                    <h5 class="card-title text-truncate game-title">{{ game.name }}</h5>
+                    <p class="card-text small mb-1">Время: <strong>{{ game.hours }} ч.</strong></p>
+                    <p class="card-text small">Запуск: <strong>{{ game.last_played }}</strong></p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

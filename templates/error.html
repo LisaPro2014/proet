@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block title %}Ошибка {{ error_code }}{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center min-vh-100 animate-fade-in">
+    <div class="text-center p-5 rounded-4"
+        style="background-color: rgba(30, 30, 30, 0.8); border: 1px solid #444; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5); max-width: 600px; width: 100%;margin-top: -15vh;">
+
+        <h1 class="display-1 fw-bold mb-3" style="color: #66c0f4; text-shadow: 0 0 10px rgba(102, 192, 244, 0.3);">
+            {{ error_code }}
+        </h1>
+
+        <h3 class="text-white mb-4">{{ error_message }}</h3>
+
+        {% if error_code == 404 %}
+        <p class="text-muted mb-5">
+            Возможно, вы ввели неправильный адрес, страница была удалена.
+        </p>
+        {% else %}
+        <p class="text-muted mb-5">
+            Сервер столкнулся с непредвиденной проблемой. Попробуйте вернуться на главную страницу или зайти позже.
+        </p>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="btn btn-steam btn-lg">
+            На главную
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-5 animate-fade-in">
+    <div class="col-md-4">
+        <img src="{{ game.header_image }}" class="img-fluid rounded shadow" alt="">
+    </div>
+    <div class="col-md-8">
+        <h1>
+            {{ game.name }}
+            {% if unlocked == total and total > 0 %}
+            <span class="text-warning" title="Пройдено на 100%">🏆</span> <!--ничего нормального не нашла, картинки выглядели как то криво,
+            поэтому пусть остается кубок -->
+            {% endif %}
+        </h1>
+        <p class="text-secondary">{{ game.short_description|safe }}</p>
+
+        {% if total > 0 %}
+            <div class="mt-4">
+                <h4>Прогресс достижений: {{ unlocked }} из {{ total }} ({{ rate }}%)</h4>
+                <div class="progress" style="height: 25px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ rate }}%"></div> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="animate-fade-in">
+
+    <h3 class="animate-fade-in">Все достижения</h3>
+    <div class="row g-3 animate-fade-in">
+        {% for ach in achievements %}
+        <div class="col-md-6 col-lg-4">
+            <div class="d-flex align-items-center p-3 border rounded {% if ach.unlocked %}bg-dark-subtle{% else %}opacity-50{% endif %}">
+                <img src="{{ ach.icon }}" class="rounded me-3" width="64" alt="">
+                <div class="overflow-hidden">
+                    <div class="fw-bold text-truncate">{{ ach.display_name }}</div>
+                    <div class="small text-secondary text-truncate">{{ ach.description }}</div>
+                    <div class="badge bg-info mt-1">У {{ ach.percent }}% игроков</div>
+                </div>
+                {% if ach.unlocked %}
+                <div class="ms-auto text-success fs-4">✔</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% else %}
+        </div> </div> <hr class="animate-fade-in">
+    
+    <div class="alert alert-secondary text-center animate-fade-in mt-4" role="alert">
+        У данной игры нет достижений
+    </div>
+    {% endif %}
+
+{% endblock %}

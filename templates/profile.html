@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center animate-fade-in">
+        <div class="col-md-10 col-lg-8">
+            <div class="card card-hover shadow-lg border-0 bg-dark text-white"
+                style="border-radius: 15px; overflow: hidden;">
+
+                <div class="card-header border-0 p-4"
+                    style="background: linear-gradient(90deg, #1b2838 0%, #2a475e 100%);">
+                    <h3 class="mb-0 fw-bold"><i class="bi bi-person-circle me-2"></i>Профиль пользователя</h3>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="row g-0">
+                        <div class="col-md-4 text-center p-4" style="background: rgba(0,0,0,0.2);">
+                            <div class="position-relative d-inline-block">
+                                <img src="{{ user.avatar_url }}" alt="Аватар"
+                                    class="img-fluid rounded-circle border border-4 border-info shadow-sm mb-3"
+                                    style="width: 160px; height: 160px; object-fit: cover;">
+                            </div>
+                            <h4 class="fw-bold">{{ user.nickname }}</h4>
+                            <span class="badge bg-info text-dark">ID: #{{ user.id }}</span>
+                        </div>
+
+                        <div class="col-md-8 p-4">
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                            {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show mb-3" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            {% endwith %}
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="text-info mb-0 text-uppercase small fw-bold" style="letter-spacing: 1px;">
+                                    Учетные данные</h5>
+                                <button class="btn btn-sm btn-outline-info" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#editProfileForm">
+                                    <i class="bi bi-pencil-square me-1"></i> Изменить
+                                </button>
+                            </div>
+
+                            <div class="mb-4">
+                                <p class="mb-1 text-muted">Электронная почта</p>
+                                <p class="lead">{{ user.email or '<i>Почта не привязана</i>'|safe }}</p>
+                            </div>
+
+                            <div class="collapse mb-4 {% if form.errors %}show{% endif %}" id="editProfileForm">
+                                <div class="p-3 rounded-3"
+                                    style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+
+                                    <form method="POST" action="/profile">
+                                        {{ form.hidden_tag() }} <div class="mb-3">
+                                            <label class="form-label small text-muted">Новый Email</label>
+                                            {{ form.email(class="form-control form-control-sm bg-dark text-white
+                                            border-secondary") }}
+                                            {% for error in form.email.errors %}
+                                            <div class="text-danger small mt-1">{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+
+                                        {% if user.password_hash %}
+                                        <div class="mb-3">
+                                            <label class="form-label small text-muted">Текущий пароль</label>
+                                            {{ form.current_password(class="form-control form-control-sm bg-dark
+                                            text-white border-secondary", placeholder="Для подтверждения изменений") }}
+                                            {% for error in form.current_password.errors %}
+                                            <div class="text-danger small mt-1">{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+
+                                        <div class="mb-3">
+                                            <label class="form-label small text-muted">Новый пароль</label>
+                                            {{ form.new_password(class="form-control form-control-sm bg-dark text-white
+                                            border-secondary", placeholder="Оставьте пустым, если не меняете пароль") }}
+                                            {% for error in form.new_password.errors %}
+                                            <div class="text-danger small mt-1">{{ error }}</div>
+                                            {% endfor %}
+                                        </div>
+
+                                        {{ form.submit(class="btn btn-sm btn-info w-100") }}
+                                    </form>
+                                </div>
+                            </div>
+
+                            <h5 class="text-info mb-3 text-uppercase small fw-bold" style="letter-spacing: 1px;">
+                                Интеграция со Steam</h5>
+                            {% if user.steam_id %}
+                            <div class="p-3 rounded-3 d-flex align-items-center"
+                                style="background: rgba(25, 135, 84, 0.1); border: 1px solid #198754;">
+                                <i class="bi bi-check-circle-fill text-success fs-3 me-3"></i>
+                                <div>
+                                    <div class="text-success fw-bold">Аккаунт привязан</div>
+                                    <div class="small text-muted">Steam ID: {{ user.steam_id }}</div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="p-3 rounded-3 d-flex align-items-center mb-3"
+                                style="background: rgba(255, 193, 7, 0.1); border: 1px solid #ffc107;">
+                                <i class="bi bi-exclamation-triangle-fill text-warning fs-3 me-3"></i>
+                                <div class="small text-white">Привяжите Steam, чтобы видеть свою библиотеку и
+                                    достижения.</div>
+                            </div>
+                            <a href="/login" class="btn btn-steam w-100">
+                                <i class="bi bi-steam me-2"></i> Привязать Steam
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-transparent border-0 text-center py-3">
+                    <a href="/" class="text-decoration-none text-muted small"><i class="bi bi-arrow-left me-1"></i>
+                        Вернуться в магазин</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

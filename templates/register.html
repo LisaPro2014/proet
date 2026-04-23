@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center animate-fade-in">
+    <div class="col-md-5">
+        <div class="card bg-dark-subtle shadow {% if steam_data %}border-primary{% endif %}">
+            <div class="card-body p-4 {% if steam_data %}text-center{% endif %}">
+
+                {% if steam_data %}
+                <img src="{{ steam_data.avatar }}" class="rounded-circle mb-3 border border-3 border-primary"
+                    width="80">
+                <h3 class="mb-1">Почти готово, {{ steam_data.nickname }}!</h3>
+                <p class="text-secondary mb-4">Для завершения регистрации укажите почту и придумайте пароль</p>
+                {% else %}
+                <h3 class="card-title text-center mb-4">Регистрация</h3>
+                {% endif %}
+
+                <form method="POST" action="/register">
+                    {{ form.hidden_tag() }} <div class="mb-3 {% if steam_data %}text-start{% endif %}">
+                        <label class="form-label {% if steam_data %}text-secondary small{% endif %}">Email</label>
+                        {{ form.email(class="form-control", placeholder="example@mail.com") }}
+                        {% for error in form.email.errors %}
+                        <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3 {% if steam_data %}text-start{% endif %}">
+                        <label class="form-label {% if steam_data %}text-secondary small{% endif %}">Пароль</label>
+                        {{ form.password(class="form-control", placeholder="Минимум 6 символов") }}
+                        {% for error in form.password.errors %}
+                        <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                        {% if steam_data %}Создать аккаунт{% else %}Зарегистрироваться{% endif %}
+                    </button>
+                </form>
+
+                {% if not steam_data %}
+                <div class="text-center mt-3">
+                    <a href="/login_email" class="text-decoration-none">Уже есть аккаунт? Войти</a>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

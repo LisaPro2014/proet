@@ -1,0 +1,88 @@
+/* Общие стили */
+.steam-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    border: 2px solid #66c0f4;
+    object-fit: cover;
+}
+
+/* плавное появление  при загрузке страницы */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Улучшенные карточки игр с плавной анимацией */
+.card-hover {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                box-shadow 0.4s ease;
+    will-change: transform; 
+}
+
+.card-hover:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5) !important;
+    z-index: 10;
+}
+
+/* Стили для поиска в библиотеке */
+.game-card {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/*  полоса прогресса достижений */
+.progress-bar {
+    transition: width 1.5s cubic-bezier(0.65, 0, 0.35, 1) !important;
+}
+
+/* чтобы иожно было заходить с телефона и сайт не ломался */
+@media (max-width: 768px) {
+    #gameSearchInput { width: 100% !important; margin-top: 10px; }
+    .search-container { flex-direction: column; align-items: stretch !important; }
+}
+
+
+/* Кастомная кнопка Steam */
+.btn-steam {
+    background-color: #2b2b2b; 
+    color: #e0e0e0;          
+    border: 1px solid #444444; 
+    transition: all 0.3s ease;
+    font-weight: 500;
+    padding: 8px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-steam:hover {
+    background-color: #3d3d3d; /* При наведении становится чуть светлее */
+    color: #ffffff;            
+    border-color: #666666;     /* Граница подсвечивается */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Глубокая тень */
+    transform: translateY(-1px);        
+}
+
+.btn-steam:active {
+    background-color: #1f1f1f;
+    transform: translateY(0);
+}
+
+.offcanvas {
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.offcanvas-backdrop {
+    transition: opacity 0.6s ease-in-out !important;
+}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-4 animate-fade-in">
+    <h2>Рекомендовано для вас</h2>
+    <p class="text-secondary">Игры из трендов Steam, которых еще нет в вашей библиотеке.</p>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5 animate-fade-in">
+    {% for item in recs %}
+    <div class="col">
+        <a href="https://store.steampowered.com/app/{{ item.id }}" target="_blank"
+            class="text-decoration-none text-reset">
+            <div class="card h-100 bg-dark text-white border-0 shadow-sm card-hover">
+                <img src="{{ item.large_capsule_image }}" class="card-img" alt="{{ item.name }}">
+                <div class="card-img-overlay d-flex flex-column justify-content-end bg-dark bg-opacity-50">
+                    <h6 class="card-title text-truncate">{{ item.name }}</h6>
+                    <p class="card-text mb-0">
+                        {% if item.discount_percent > 0 %}
+                        <span class="badge bg-success">-{{ item.discount_percent }}%</span>
+                        <span class="text-decoration-line-through small ms-1 text-white-50">
+                            {{ (item.original_price / 100)|round(0) }} {{ item.currency }}
+                        </span>
+                        {% endif %}
+                        <span class="fw-bold ms-1">{{ (item.final_price / 100)|round(0) }} {{ item.currency }}</span>
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
