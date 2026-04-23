@@ -17,7 +17,7 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "fallback_secret_key")
 STEAM_API_KEY = os.getenv("API_KEY")
-
+BASE_URL=os.getenv('RENDER_EXTERNAL_URL', 'https://proet.onrender.com')
 basedir = os.path.abspath(os.path.dirname(__file__))  # путь до папки
 sql_folder = os.path.join(basedir, "sql")
 db_path = os.path.join(sql_folder, "steam_users.db")
@@ -44,8 +44,8 @@ def index():
 def login():
     url = steam_utils.build_openid_login_url(
         api_links.STEAM_OPENID_URL,
-        "http://localhost:5000/authorize",
-        "http://localhost:5000",
+        f"{BASE_URL}/authorize",
+        BASE_URL,
     )
     return redirect(url)
 
